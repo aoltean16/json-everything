@@ -15,7 +15,7 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<DocumentationFile>JsonSchema.Net.Generation.xml</DocumentationFile>
 		<LangVersion>latest</LangVersion>
-		<Version>3.3.0</Version>
+		<Version>3.3.0-uipath</Version>
 		<FileVersion>3.3.0.0</FileVersion>
 		<AssemblyVersion>3.0.0.0</AssemblyVersion>
 		<IncludeSymbols>true</IncludeSymbols>

@@ -30,6 +30,8 @@ internal class ObjectSchemaGenerator : ISchemaGenerator
 			.Concat(fieldsToGenerate)
 			.Concat(hiddenPropertiesToGenerate)
 			.Concat(hiddenFieldsToGenerate)
+			.GroupBy(p=> p.Name)
+			.Select(g=> g.First())
 			.ToList();
 
 		membersToGenerate = SchemaGeneratorConfiguration.Current.PropertyOrder switch
@@ -54,7 +56,7 @@ internal class ObjectSchemaGenerator : ISchemaGenerator
 			var localConditionalAttributes = memberAttributes.Except(unconditionalAttributes).OfType<ConditionalAttribute>().ToList();
 			foreach (var conditions in localConditionalAttributes.GroupBy(x => x.ConditionGroup))
 			{
-				if (!conditionalAttributes.TryGetValue(conditions.Key!, out var list)) 
+				if (!conditionalAttributes.TryGetValue(conditions.Key!, out var list))
 					conditionalAttributes[conditions.Key!] = list = new List<(MemberInfo, ConditionalAttribute)>();
 
 				list.AddRange(conditions.Select(x => (member, x)));
@@ -81,7 +83,7 @@ internal class ObjectSchemaGenerator : ISchemaGenerator
 			}
 
 			if (SchemaGeneratorConfiguration.Current.StrictConditionals &&
-			    localConditionalAttributes.Any())
+				localConditionalAttributes.Any())
 			{
 				addUnevaluatedProperties = true;
 				var applicableConditionGroups = localConditionalAttributes.Select(x => x.ConditionGroup).Distinct();
